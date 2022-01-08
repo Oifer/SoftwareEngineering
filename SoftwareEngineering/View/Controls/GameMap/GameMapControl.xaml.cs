@@ -19,35 +19,14 @@ namespace SoftwareEngineering.View.Controls.GameMap
     /// <summary>
     /// Логика взаимодействия для GameMapControl.xaml
     /// </summary>
-    public partial class GameMapControl : UserControl, IGameMap
+    public partial class GameMapControl : UserControl
     {
+        public readonly GameMapViewModel ViewModel;
+
         public GameMapControl()
         {
             InitializeComponent();
-        }
-
-        /// <inheritdoc />
-        public int MapWidth { get; set; }
-
-        /// <inheritdoc />
-        public int MapHeight { get; set; }
-
-        /// <inheritdoc />
-        public int LengthToWin { get; set; }
-
-        /// <inheritdoc />
-        public Mark NextMark { get; set; }
-
-        /// <inheritdoc />
-        public event Action<Mark> WinEvent;
-
-        /// <inheritdoc />
-        public event Action NoEmptyCellsEvent;
-
-        /// <inheritdoc />
-        public void Clear()
-        {
-            throw new NotImplementedException();
+            ViewModel = new GameMapViewModel();
         }
     }
 }

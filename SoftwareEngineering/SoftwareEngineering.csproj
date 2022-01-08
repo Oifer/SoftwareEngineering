@@ -57,6 +57,7 @@
     <Compile Include="View\Controls\GameMap\GameMapControl.xaml.cs">
       <DependentUpon>GameMapControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\GameMap\GameMapViewModel.cs" />
     <Compile Include="View\Controls\GameMap\IGameMap.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
