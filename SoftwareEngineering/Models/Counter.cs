@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftwareEngineering.Models
+﻿namespace SoftwareEngineering.Models
 {
     /// <summary>
-    /// Тип, описывающий состояние счетчика элементов
+    /// Тип, описывающий счетчик элементов
     /// </summary>
-    public class CounterState<T>
+    public class Counter<T>
     {
-        public CounterState(T currentItem, uint count)
+        public Counter(T currentItem, uint count)
         {
             CurrentItem = currentItem;
             Count = count;

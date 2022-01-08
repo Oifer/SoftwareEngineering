@@ -5,6 +5,9 @@ using SoftwareEngineering.Models.Enums;
 
 namespace SoftwareEngineering.View.Controls.GameMap
 {
+    /// <summary>
+    /// Тип, реализующий логику поля для игры
+    /// </summary>
     public class GameMapViewModel : IGameMap
     {
         public GameMapViewModel(Action<Mark[,]> onRedraw)
@@ -91,7 +94,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             for (int i = 0; i < height; i++)
             {
-                CounterState<Mark> state = new CounterState<Mark>(map[i, 0], 1);
+                Counter<Mark> state = new Counter<Mark>(map[i, 0], 1);
 
                 for (int j = 1; j < width; j++)
                 {
@@ -112,7 +115,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             for (int j = 0; j < width; j++)
             {
-                CounterState<Mark> state = new CounterState<Mark>(map[0, j], 1);
+                Counter<Mark> state = new Counter<Mark>(map[0, j], 1);
                     
                 for (int i = 1; i < height; i++)
                 {
@@ -147,7 +150,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             for (int horizontalShift = 0; horizontalShift < width; horizontalShift++) //сдвиг от верхнего левого края по горизонтали
             {
-                CounterState<Mark> state = new CounterState<Mark>(map[0, horizontalShift], 1);
+                Counter<Mark> state = new Counter<Mark>(map[0, horizontalShift], 1);
 
                 for (int i = 1; (i + horizontalShift) < width && i < height; i++) //проход по диагонали до упора в края поля
                 {
@@ -168,7 +171,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             for (int verticalShift = 0; verticalShift < height; verticalShift++)
             {
-                CounterState<Mark> state = new CounterState<Mark>(map[verticalShift, 0], 1);
+                Counter<Mark> state = new Counter<Mark>(map[verticalShift, 0], 1);
 
                 for (int i = 1; i < width && (i + verticalShift) < height; i++)
                 {
@@ -182,7 +185,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверяет текущий элемент и вызывает событие выигрыша, если цепочка достаточно длинна </summary>
-        private bool CheckItem(CounterState<Mark> state, Mark item, int lengthToWin)
+        private bool CheckItem(Counter<Mark> state, Mark item, int lengthToWin)
         {
             if (!state.Check(item)) 
                 return false;

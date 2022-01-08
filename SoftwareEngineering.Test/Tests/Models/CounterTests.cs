@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+
 using SoftwareEngineering.Models;
 
 namespace SoftwareEngineering.Test.Tests.Models
 {
     [TestFixture]
-    public class CounterStateTests
+    public class CounterTests
     {
-        private CounterState<T> Init<T>(T item, uint count) => new CounterState<T>(item, count);
+        private Counter<T> Init<T>(T item, uint count) => new Counter<T>(item, count);
 
         [Test(Description = "Тестирование корректности срабатывания встроенной проверки")]
         public void CheckTest()
@@ -19,7 +15,7 @@ namespace SoftwareEngineering.Test.Tests.Models
             const int initialItem = 2;
             const uint initialCount = 0;
 
-            CounterState<int> state = Init(initialItem, initialCount);
+            Counter<int> state = Init(initialItem, initialCount);
 
             Assert.IsTrue(state.Check(initialItem));
             Assert.AreEqual(initialCount + 1, state.Count);

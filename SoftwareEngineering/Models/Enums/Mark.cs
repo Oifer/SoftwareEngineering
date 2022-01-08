@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareEngineering.Models.Enums
 {
@@ -21,6 +17,10 @@ namespace SoftwareEngineering.Models.Enums
 
     public static class MarkExtensions
     {
+        /// <summary>
+        /// Получение знания в зависимости от экземпляра перечисления
+        /// </summary>
+        /// <remarks>В случае внесения изменений в перечисление позволяет переложить поиск использований на транслятор</remarks>
         public static T GetValueByMark<T>(this Mark mark, T onNone, T onNaught, T onCross)
         {
             switch (mark)

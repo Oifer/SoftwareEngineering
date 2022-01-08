@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using NUnit.Framework;
+
 using SoftwareEngineering.Models.Enums;
-using SoftwareEngineering.Test.TestObjects.View.Controls;
 using SoftwareEngineering.View.Controls.GameMap;
+
+using SoftwareEngineering.Test.TestObjects.View.Controls;
 
 namespace SoftwareEngineering.Test.Tests.View.Controls
 {

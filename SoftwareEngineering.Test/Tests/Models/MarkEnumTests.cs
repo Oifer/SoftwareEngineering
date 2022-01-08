@@ -1,5 +1,7 @@
 ﻿using System;
+
 using NUnit.Framework;
+
 using SoftwareEngineering.Models.Enums;
 
 namespace SoftwareEngineering.Test.Tests.Models

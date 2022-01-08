@@ -54,7 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\CounterState.cs" />
+    <Compile Include="Models\Counter.cs" />
     <Compile Include="View\Controls\GameMap\GameMapControl.xaml.cs">
       <DependentUpon>GameMapControl.xaml</DependentUpon>
     </Compile>
