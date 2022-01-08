@@ -5,9 +5,9 @@ namespace SoftwareEngineering.Test.TestObjects.View.Controls
 {
     public class GameMapTestObject : GameMapViewModel
     {
-        public GameMapTestObject() : base()
+        public GameMapTestObject() : base(map => { })
         { }
-
+        
         public Mark[,] Map
         {
             get => base._map;

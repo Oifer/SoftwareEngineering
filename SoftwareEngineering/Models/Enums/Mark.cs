@@ -18,4 +18,19 @@ namespace SoftwareEngineering.Models.Enums
         /// <summary> Крест </summary>
         Cross,
     }
+
+    public static class MarkExtensions
+    {
+        public static T GetValueByMark<T>(this Mark mark, T onNone, T onNaught, T onCross)
+        {
+            switch (mark)
+            {
+                case Mark.None: return onNone;
+                case Mark.Naught: return onNaught;
+                case Mark.Cross: return onCross;
+
+                default: throw new NotImplementedException();
+            }
+        }
+    }
 }
