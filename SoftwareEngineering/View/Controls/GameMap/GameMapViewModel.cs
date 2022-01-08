@@ -187,7 +187,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
             if (!state.Check(item)) 
                 return false;
             
-            if (state.Count < lengthToWin)
+            if (state.CurrentItem == Mark.None || state.Count < lengthToWin)
                 return false;
 
             WinEvent?.Invoke(item);
