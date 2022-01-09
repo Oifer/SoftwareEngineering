@@ -51,7 +51,9 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         {
             SettingsBoardViewModel board = Init(width, height, lengthToWin, firstMark);
 
-            GameSettings settings = board.GetSettings(out string errorMessage);
+            ResponseWithErrorMessage<GameSettings> response = board.GetSettings();
+            GameSettings settings = response.Response;
+            string errorMessage = response.ErrorMessage;
             
             Assert.AreEqual(expected, settings != null, "Ожидалось корректное заполнение настроек");
             Assert.AreEqual(expected, string.IsNullOrWhiteSpace(errorMessage), "Ожидалось отсутсвие сообщения об ошибке");

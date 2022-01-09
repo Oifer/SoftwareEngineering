@@ -23,27 +23,24 @@ namespace SoftwareEngineering.View.Controls.SettingsBoard
         }
 
         /// <inheritdoc />
-        public GameSettings GetSettings(out string errorMessage)
+        public ResponseWithErrorMessage<GameSettings> GetSettings()
         {
             Mark mark = _getFirstMarkFunc();
+            
 
-            //при прождении проверок все переменные получат значения
-            uint mapWidth = 0, mapHeight = 0, lengthToWin = 0;
-            errorMessage = string.Empty;
+            if (!uint.TryParse(_getWidthFunc(), out uint mapWidth) || mapWidth == 0)
+                return new ResponseWithErrorMessage<GameSettings>("Некорректная ширина поля");
 
-            if (!uint.TryParse(_getWidthFunc(), out mapWidth) || mapWidth == 0)
-                errorMessage = "Некорректная ширина поля";
-            else if (!uint.TryParse(_getHeightFunc(), out mapHeight) || mapHeight == 0)
-                errorMessage = "Некорректная высота поля";
-            else if (!uint.TryParse(_getLengthToWinFunc(), out lengthToWin) || lengthToWin == 0)
-                errorMessage = "Некорректная длина серии для выигрыша";
-            else if (mark == Mark.None)
-                errorMessage = "Некорректная очередность ходов";
+            if (!uint.TryParse(_getHeightFunc(), out uint mapHeight) || mapHeight == 0)
+                return new ResponseWithErrorMessage<GameSettings>("Некорректная высота поля");
 
-            if (!string.IsNullOrWhiteSpace(errorMessage))
-                return null;
+            if (!uint.TryParse(_getLengthToWinFunc(), out uint lengthToWin) || lengthToWin == 0)
+                return new ResponseWithErrorMessage<GameSettings>("Некорректная длина серии для выигрыша");
 
-            return new GameSettings(mapWidth, mapHeight, lengthToWin, mark);
+            if (mark == Mark.None)
+                return new ResponseWithErrorMessage<GameSettings>("Некорректная очередность ходов");
+            
+            return new ResponseWithErrorMessage<GameSettings>(new GameSettings(mapWidth, mapHeight, lengthToWin, mark));
         }
 
         private readonly Func<string> _getWidthFunc;

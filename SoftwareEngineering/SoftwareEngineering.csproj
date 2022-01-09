@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\Counter.cs" />
     <Compile Include="Models\GameSettings.cs" />
+    <Compile Include="Models\ResponseWithErrorMessage.cs" />
     <Compile Include="View\Controls\GameMap\GameMapControl.xaml.cs">
       <DependentUpon>GameMapControl.xaml</DependentUpon>
     </Compile>
@@ -66,6 +67,11 @@
       <DependentUpon>SettingsBoardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\SettingsBoard\SettingsBoardViewModel.cs" />
+    <Compile Include="View\Windows\Game\GameWindowViewModel.cs" />
+    <Compile Include="View\Windows\Game\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\Game\IGameWindow.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\SettingsBoard\SettingsBoardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\Game\GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,6 +123,7 @@
     </None>
     <None Include="View\Controls\README.md" />
     <None Include="View\README.md" />
+    <None Include="View\Windows\README.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
