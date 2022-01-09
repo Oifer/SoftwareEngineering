@@ -10,15 +10,20 @@ namespace SoftwareEngineering.Models
     /// <summary> Тип, описывающий настройки для игры </summary>
     public class GameSettings
     {
-        public GameSettings()
-        { }
+        public GameSettings(uint mapWidth, uint mapHeight, uint lengthToWin, Mark firstMark)
+        {
+            MapWidth = mapWidth;
+            MapHeight = mapHeight;
+            LengthToWin = lengthToWin;
+            FirstMark = firstMark;
+        }
 
-        public uint MapWidth { get; set; } = 10;
+        public uint MapWidth { get; }
 
-        public uint MapHeight { get; set; } = 10;
+        public uint MapHeight { get; }
 
-        public uint LengthToWin { get; set; } = 5;
+        public uint LengthToWin { get; }
 
-        public Mark FirstMark { get; set; } = Mark.Cross;
+        public Mark FirstMark { get; }
     }
 }

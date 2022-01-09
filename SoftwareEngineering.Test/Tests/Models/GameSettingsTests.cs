@@ -7,16 +7,19 @@ namespace SoftwareEngineering.Test.Tests.Models
     [TestFixture]
     public class GameSettingsTests
     {
-        private GameSettings Init() => new GameSettings();
+        private GameSettings Init(
+            uint mapWidth = 10, 
+            uint mapHeight = 10, 
+            uint lengthToWin = 5, 
+            Mark firstMark = Mark.Cross) => new GameSettings(mapWidth, mapHeight, lengthToWin, firstMark);
 
         [Test(Description = "Проверка свойства ширины поля")]
         public void MapWidthTest()
         {
             const uint width = 5;
 
-            GameSettings settings = Init();
-
-            settings.MapWidth = width;
+            GameSettings settings = Init(mapWidth: width);
+            
             Assert.AreEqual(width, settings.MapWidth, "Свойство не присваивается");
         }
 
@@ -25,9 +28,8 @@ namespace SoftwareEngineering.Test.Tests.Models
         {
             const uint height = 5;
 
-            GameSettings settings = Init();
-
-            settings.MapHeight = height;
+            GameSettings settings = Init(mapHeight: height);
+            
             Assert.AreEqual(height, settings.MapHeight, "Свойство не присваивается");
         }
 
@@ -36,9 +38,8 @@ namespace SoftwareEngineering.Test.Tests.Models
         {
             const uint length = 5;
 
-            GameSettings settings = Init();
-
-            settings.LengthToWin = length;
+            GameSettings settings = Init(lengthToWin: length);
+            
             Assert.AreEqual(length, settings.LengthToWin, "Свойство не присваивается");
         }
 
@@ -47,9 +48,8 @@ namespace SoftwareEngineering.Test.Tests.Models
         {
             const Mark mark = Mark.Naught;
 
-            GameSettings settings = Init();
-
-            settings.FirstMark = mark;
+            GameSettings settings = Init(firstMark: mark);
+            
             Assert.AreEqual(mark, settings.FirstMark, "Свойство не присваивается");
         }
     }

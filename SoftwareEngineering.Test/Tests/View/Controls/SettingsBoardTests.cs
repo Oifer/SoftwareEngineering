@@ -56,10 +56,13 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
             Assert.AreEqual(expected, settings != null, "Ожидалось корректное заполнение настроек");
             Assert.AreEqual(expected, string.IsNullOrWhiteSpace(errorMessage), "Ожидалось отсутсвие сообщения об ошибке");
 
-            Assert.AreEqual(settings.MapWidth, Convert.ToUInt32(width), "Ширина поля искажена");
-            Assert.AreEqual(settings.MapHeight, Convert.ToUInt32(height), "Высота поля искажена");
-            Assert.AreEqual(settings.LengthToWin, Convert.ToUInt32(lengthToWin), "Длина серии для выигрыша искажена");
-            Assert.AreEqual(settings.FirstMark, firstMark, "Очередность ходов искажена");
+            if (settings != null)
+            {
+                Assert.AreEqual(settings.MapWidth, Convert.ToUInt32(width), "Ширина поля искажена");
+                Assert.AreEqual(settings.MapHeight, Convert.ToUInt32(height), "Высота поля искажена");
+                Assert.AreEqual(settings.LengthToWin, Convert.ToUInt32(lengthToWin), "Длина серии для выигрыша искажена");
+                Assert.AreEqual(settings.FirstMark, firstMark, "Очередность ходов искажена");
+            }
         }
     }
 }

@@ -1,12 +1,75 @@
-﻿<UserControl x:Class="SoftwareEngineering.View.Controls.SettingsBoard.SettingsBoardControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SoftwareEngineering.View.Controls.SettingsBoard"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+﻿<UserControl
+    x:Class="SoftwareEngineering.View.Controls.SettingsBoard.SettingsBoardControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:SoftwareEngineering.View.Controls.SettingsBoard"
+    xmlns:enums="clr-namespace:SoftwareEngineering.Models.Enums"
+    mc:Ignorable="d" 
+    d:DesignHeight="200" 
+    d:DesignWidth="400">
+    <GroupBox
+        Header="Настройки">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="150"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label 
+                Grid.Row="0" Grid.Column="0"
+                Content="Ширина поля"/>
+            <TextBox
+                Grid.Row="0" Grid.Column="1"
+                x:Name="MapWidthBox"
+                Text="10"/>
+
+            <Label
+                Grid.Row="1" Grid.Column="0"
+                Content="Высота поля"/>
+            <TextBox 
+                Grid.Row="1" Grid.Column="1"
+                x:Name="MapHeightBox"
+                Text="10"/>
+
+            <Label 
+                Grid.Row="2" Grid.Column="0"
+                Content="Длина для выигрыша"/>
+            <TextBox 
+                Grid.Row="2" Grid.Column="1"
+                x:Name="LengthToWinBox"
+                Text="5"/>
+
+            <Label 
+                Grid.Row="3" Grid.Column="0"
+                Content="Первый ход"/>
+            <ComboBox
+                Grid.Row="3" Grid.Column="1"
+                x:Name="FirstMarkBox">
+                <ComboBoxItem IsSelected="True"><enums:Mark>Cross</enums:Mark></ComboBoxItem>
+                <ComboBoxItem><enums:Mark>Naught</enums:Mark></ComboBoxItem>
+            </ComboBox>
+        </Grid>
+    </GroupBox>
 </UserControl>
