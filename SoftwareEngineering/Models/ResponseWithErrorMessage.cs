@@ -18,6 +18,8 @@ namespace SoftwareEngineering.Models
             ErrorMessage = errorMessage;
         }
 
+        public bool IsCorrect => string.IsNullOrWhiteSpace(ErrorMessage);
+
         public T Response { get; } = default;
 
         public string ErrorMessage { get; } = string.Empty;

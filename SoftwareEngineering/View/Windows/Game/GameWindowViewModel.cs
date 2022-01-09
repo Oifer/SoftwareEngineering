@@ -21,12 +21,16 @@ namespace SoftwareEngineering.View.Windows.Game
 
         public void StartGame()
         {
-            throw new NotImplementedException();
+            ResponseWithErrorMessage<GameSettings> response = _getSettingsFunc();
+            if (response.IsCorrect)
+                _startGameAction(response.Response);
+            else
+                _messageBoxAction(response.ErrorMessage);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            _clearMapAction();
         }
 
         private readonly Func<ResponseWithErrorMessage<GameSettings>> _getSettingsFunc;

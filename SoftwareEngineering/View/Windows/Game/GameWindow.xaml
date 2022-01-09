@@ -4,9 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SoftwareEngineering.View.Windows.Game"
+        xmlns:gameMap="clr-namespace:SoftwareEngineering.View.Controls.GameMap"
+        xmlns:settingsBoard="clr-namespace:SoftwareEngineering.View.Controls.SettingsBoard"
         mc:Ignorable="d"
-        Title="GameWindow" Height="450" Width="800">
+        Title="GameWindow" 
+        Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer
+            Grid.Row="0" Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto">
+            <gameMap:GameMapControl x:Name="GameMap"/>
+        </ScrollViewer>
+
+        <Label 
+            Grid.Row="1"
+            Grid.Column="0"
+            x:Name="CurrentTurnLabel"
+            HorizontalContentAlignment="Center"/>
+
+        <settingsBoard:SettingsBoardControl 
+            Grid.Row="0" Grid.Column="1"
+            x:Name="SettingsBoard"/>
+
+        <StackPanel
+            Grid.Row="1" Grid.Column="1"
+            Margin="0, 0, 0 10"
+            Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button 
+                Content="Начать игру"
+                Click="OnStartGameClicked"/>
+            <Button 
+                Content="Очистить поле"
+                Click="OnClearMapClicked"/>
+        </StackPanel>
     </Grid>
 </Window>

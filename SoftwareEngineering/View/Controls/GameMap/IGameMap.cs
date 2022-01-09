@@ -11,13 +11,13 @@ namespace SoftwareEngineering.View.Controls.GameMap
     public interface IGameMap
     {
         /// <summary> Ширина поля </summary>
-        int MapWidth { get; set; }
+        uint MapWidth { get; set; }
 
         /// <summary> Высота поля </summary>
-        int MapHeight { get; set; }
+        uint MapHeight { get; set; }
 
         /// <summary> Количество одинаковых отметок, которые необходимо поместить в ряд для выигрыша </summary>
-        int LengthToWin { get; set; }
+        uint LengthToWin { get; set; }
 
         /// <summary> Отметка, которая будет поставлена при следующем нажатии </summary>
         Mark NextMark { get; set; }
@@ -27,6 +27,9 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
         /// <summary> Событие, происходящее при заполнении всех клеток </summary>
         event Action NoEmptyCellsEvent;
+
+        /// <summary> Событие, происходящее при изменении <seealso cref="NextMark"/> </summary>
+        event Action<Mark> NextMarkChanged;
 
         /// <summary> Очиста поля </summary>
         void Clear();

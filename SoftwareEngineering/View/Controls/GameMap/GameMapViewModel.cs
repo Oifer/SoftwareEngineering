@@ -16,25 +16,25 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
         
         /// <inheritdoc />
-        public int MapWidth
+        public uint MapWidth
         {
-            get => _map.GetLength(1); 
+            get => Convert.ToUInt32(_map.GetLength(1)); 
             set => Resize(value, MapHeight);
         }
 
         /// <inheritdoc />
-        public int MapHeight
+        public uint MapHeight
         {
-            get => _map.GetLength(0); 
+            get => Convert.ToUInt32(_map.GetLength(0)); 
             set => Resize(MapWidth, value);
         }
 
-        private void Resize(int width, int height) => _onRedraw(_map = new Mark[height, width]);
+        private void Resize(uint width, uint height) => _onRedraw(_map = new Mark[height, width]);
 
-        private int _lengthToWin;
+        private uint _lengthToWin;
 
         /// <inheritdoc />
-        public int LengthToWin
+        public uint LengthToWin
         {
             get => _lengthToWin;
             set
@@ -54,15 +54,20 @@ namespace SoftwareEngineering.View.Controls.GameMap
         public event Action NoEmptyCellsEvent;
 
         /// <inheritdoc />
+        public event Action<Mark> NextMarkChanged;
+
+        /// <inheritdoc />
         public void Clear() => Resize(MapWidth, MapHeight);
 
-        public void MapClicked(int row, int column)
+        public Mark MapClicked(int row, int column)
         {
-            _map[row, column] = NextMark;
-            NextMark = GetNextMark(NextMark);
+            Mark currentMark = _map[row, column] = NextMark;
+            NextMarkChanged?.Invoke(NextMark = GetNextMark(NextMark));
 
-            CheckWin();
-            CheckFull();
+            if (!CheckWin())
+                CheckFull();
+
+            return currentMark;
         }
 
         private Mark GetNextMark(Mark currentMark)
@@ -74,20 +79,15 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверка поля на наличие серий отметок достаточно длинных для выигрыша </summary>
-        private void CheckWin()
+        private bool CheckWin()
         {
-            if (CheckHorizontal(_map, LengthToWin) != default)
-                return;
-
-            if (CheckVertical(_map, LengthToWin) != default)
-                return;
-            
-            if (CheckDiagonal(_map, LengthToWin) != default)
-                return;
+            return CheckHorizontal(_map, LengthToWin) != default ||
+                   CheckVertical(_map, LengthToWin) != default ||
+                   CheckDiagonal(_map, LengthToWin) != default;
         }
 
         /// <summary> Проверка горизонтальных серий </summary>
-        private Mark CheckHorizontal(Mark[,] map, int lengthToWin)
+        private Mark CheckHorizontal(Mark[,] map, uint lengthToWin)
         {
             int height = map.GetLength(0);
             int width = map.GetLength(1);
@@ -108,7 +108,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверка вертикальных серий </summary>
-        private Mark CheckVertical(Mark[,] map, int lengthToWin)
+        private Mark CheckVertical(Mark[,] map, uint lengthToWin)
         {
             int height = map.GetLength(0);
             int width = map.GetLength(1);
@@ -129,7 +129,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверка диагональных серий </summary>
-        private Mark CheckDiagonal(Mark[,] map, int lengthToWin)
+        private Mark CheckDiagonal(Mark[,] map, uint lengthToWin)
         {
             Mark horizontalResult = CheckDiagonalWithHorizontalShift(map, lengthToWin);
             if (horizontalResult != default)
@@ -143,7 +143,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверка диагональных серий с сдвигом по горизонтали от начала координат </summary>
-        private Mark CheckDiagonalWithHorizontalShift(Mark[,] map, int lengthToWin)
+        private Mark CheckDiagonalWithHorizontalShift(Mark[,] map, uint lengthToWin)
         {
             int height = map.GetLength(0);
             int width = map.GetLength(1);
@@ -164,7 +164,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверка диагональных серий с сдвигом по вертикали от начала координат </summary>
-        private Mark CheckDiagonalWithVerticalShift(Mark[,] map, int lengthToWin)
+        private Mark CheckDiagonalWithVerticalShift(Mark[,] map, uint lengthToWin)
         {
             int height = map.GetLength(0);
             int width = map.GetLength(1);
@@ -185,7 +185,7 @@ namespace SoftwareEngineering.View.Controls.GameMap
         }
 
         /// <summary> Проверяет текущий элемент и вызывает событие выигрыша, если цепочка достаточно длинна </summary>
-        private bool CheckItem(Counter<Mark> state, Mark item, int lengthToWin)
+        private bool CheckItem(Counter<Mark> state, Mark item, uint lengthToWin)
         {
             if (!state.Check(item)) 
                 return false;
