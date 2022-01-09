@@ -56,7 +56,13 @@ namespace SoftwareEngineering.View.Controls.GameMap
                     {
                         Content = GetText(map[row, column]),
                     };
-                    button.Click += (s, e) => button.Content = GetText(ViewModel.MapClicked(row, column));
+                    button.Click += (s, e) =>
+                    {
+                        if (((string) button.Content).Length > 0) //если поле уже занято
+                            return;
+
+                        button.Content = GetText(ViewModel.MapClicked(row, column));
+                    };
 
                     grid.Children.Add(button);
                     Grid.SetRow(button, row);

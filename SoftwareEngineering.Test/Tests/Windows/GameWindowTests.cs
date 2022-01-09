@@ -40,13 +40,13 @@ namespace SoftwareEngineering.Test.Tests.Windows
         {
             GameSettings settingsToStart = null;
             GameWindowViewModel viewModel = Init(settingsResponse: areSettingsCorrect ? CorrectSettings : IncorrectSettings,
-                                                 startGameAction: settings => settingsToStart = null);
+                                                 startGameAction: settings => settingsToStart = settings);
 
             viewModel.StartGame();
 
             Assert.AreEqual(expected, settingsToStart != null);
             if (settingsToStart != null)
-                Assert.AreEqual(CorrectSettings, settingsToStart);
+                Assert.AreEqual(CorrectSettings.Response, settingsToStart);
         }
 
         [Test(Description = "Тестирование очистки поля")]

@@ -29,8 +29,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         public void WidthChangeTest()
         {
             GameMapViewModel map = Init(out GameMapTestObject testObject);
-            int oldWidth = map.MapWidth;
-            int newWidth = oldWidth + 2;
+            uint oldWidth = map.MapWidth;
+            uint newWidth = oldWidth + 2;
 
             map.MapWidth = newWidth;
 
@@ -42,8 +42,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         public void HeightChangeTest()
         {
             GameMapViewModel map = Init(out GameMapTestObject testObject);
-            int oldHeight = map.MapHeight;
-            int newHeight = oldHeight + 2;
+            uint oldHeight = map.MapHeight;
+            uint newHeight = oldHeight + 2;
 
             map.MapHeight = newHeight;
 
@@ -55,8 +55,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         public void LengthToWinChangeTest()
         {
             GameMapViewModel map = Init(out GameMapTestObject testObject);
-            int oldLength = map.LengthToWin;
-            int newLength = oldLength + 2;
+            uint oldLength = map.LengthToWin;
+            uint newLength = oldLength + 2;
 
             map.LengthToWin = newLength;
 
@@ -171,6 +171,35 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
             WinTestInternal(map, winner, 3, 2);
         }
 
+        [Test(Description = "Тестирование обнаружения выигрыша (диагональная серия отметок с горизонтальным сдвигом справа-налево)")]
+        public void WinInvertedDiagonalWithHorizontalShiftTest()
+        {
+            const Mark winner = Mark.Cross;
+            Mark[,] map = new Mark[,]
+            {
+                { Mark.None, Mark.None , Mark.None , Mark.Cross },
+                { Mark.None, Mark.None , Mark.Cross, Mark.None },
+                { Mark.None, Mark.None , Mark.None , Mark.None },
+            };
+
+            WinTestInternal(map, winner, 2, 1);
+        }
+
+        [Test(Description = "Тестирование обнаружения выигрыша (диагональная серия отметок с вертикальным сдвигом снизу-вверх)")]
+        public void WinInvertedDiagonalWithVerticalShiftTest()
+        {
+            const Mark winner = Mark.Cross;
+            Mark[,] map = new Mark[,]
+            {
+                { Mark.None , Mark.None , Mark.None },
+                { Mark.None , Mark.None , Mark.None },
+                { Mark.None , Mark.Cross, Mark.None },
+                { Mark.Cross, Mark.None , Mark.None },
+            };
+
+            WinTestInternal(map, winner, 1, 2);
+        }
+
         private void WinTestInternal(Mark[,] gameMap, Mark expectedWinner, int clickRow, int clickColumn)
         {
             const int lengthToWin = 3;
@@ -180,18 +209,24 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
             testObject.Map = gameMap;
             map.NextMark = expectedWinner;
 
+            bool winCalled = false;
             Mark winMark = Mark.None;
-            map.WinEvent += mark => winMark = mark;
+            map.WinEvent += mark =>
+            {
+                winCalled = true;
+                winMark = mark;
+            };
 
             map.MapClicked(clickRow, clickColumn);
 
-            Task.Run(async () =>
+            if (!winCalled)
             {
-                await Task.Delay(500);
+                Assert.Fail("Выигрыш не был засчитан");
+                return;
+            }
 
-                Assert.AreNotEqual(winMark, Mark.None, "Выигрыш засчитан за серию пустых клеток");
-                Assert.AreEqual(winMark, expectedWinner, "Событие выигрыша не вызвано или вызвано с неверным аргументом");
-            });
+            Assert.AreNotEqual(winMark, Mark.None, "Выигрыш засчитан за серию пустых клеток");
+            Assert.AreEqual(winMark, expectedWinner, "Событие выигрыша не вызвано или вызвано с неверным аргументом");
         }
     }
 }

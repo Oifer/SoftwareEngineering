@@ -135,9 +135,17 @@ namespace SoftwareEngineering.View.Controls.GameMap
             if (horizontalResult != default)
                 return horizontalResult;
 
+            Mark invertedHorizontalResult = CheckInvertedDiagonalWithHorizontalShift(map, lengthToWin);
+            if (invertedHorizontalResult != default)
+                return invertedHorizontalResult;
+
             Mark verticalResult = CheckDiagonalWithVerticalShift(map, lengthToWin);
             if (verticalResult != default)
                 return verticalResult;
+
+            Mark verticalInvertedResult = CheckInvertedDiagonalWithVerticalShift(map, lengthToWin);
+            if (verticalInvertedResult != default)
+                return verticalInvertedResult;
 
             return Mark.None;
         }
@@ -169,7 +177,47 @@ namespace SoftwareEngineering.View.Controls.GameMap
             int height = map.GetLength(0);
             int width = map.GetLength(1);
 
-            for (int verticalShift = 0; verticalShift < height; verticalShift++)
+            for (int verticalShift = 0; verticalShift < height; verticalShift++) //сдвиг от верхнего левого края по вертикали
+            {
+                Counter<Mark> state = new Counter<Mark>(map[verticalShift, 0], 1);
+
+                for (int i = 1; i < width && (i + verticalShift) < height; i++) //проход по диагонали до упора в края поля
+                {
+                    Mark item = map[verticalShift + i, i];
+                    if (CheckItem(state, item, lengthToWin))
+                        return item;
+                }
+            }
+
+            return Mark.None;
+        }
+
+        private Mark CheckInvertedDiagonalWithHorizontalShift(Mark[,] map, uint lengthToWin)
+        {
+            int height = map.GetLength(0);
+            int width = map.GetLength(1);
+
+            for (int horizontalShift = width - 1; horizontalShift >= 0; horizontalShift--)
+            {
+                Counter<Mark> state = new Counter<Mark>(map[height - 1, horizontalShift], 1);
+
+                for (int i = 1; (i + horizontalShift) < width && i < height; i++)
+                {
+                    Mark item = map[height - (i + 1), i + horizontalShift];
+                    if (CheckItem(state, item, lengthToWin))
+                        return item;
+                }
+            }
+
+            return Mark.None;
+        }
+
+        private Mark CheckInvertedDiagonalWithVerticalShift(Mark[,] map, uint lengthToWin)
+        {
+            int height = map.GetLength(0);
+            int width = map.GetLength(1);
+
+            for (int verticalShift = height - 1; verticalShift >= 0; verticalShift--)
             {
                 Counter<Mark> state = new Counter<Mark>(map[verticalShift, 0], 1);
 
