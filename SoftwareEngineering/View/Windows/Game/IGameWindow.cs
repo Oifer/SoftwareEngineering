@@ -2,5 +2,8 @@
 {
     public interface IGameWindow
     {
+        void StartGame();
+
+        void Clear();
     }
 }
