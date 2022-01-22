@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using SoftwareEngineering.Models;
 using SoftwareEngineering.Models.Enums;
@@ -83,7 +84,8 @@ namespace SoftwareEngineering.View.Controls.GameMap
         {
             return CheckHorizontal(_map, LengthToWin) != default ||
                    CheckVertical(_map, LengthToWin) != default ||
-                   CheckDiagonal(_map, LengthToWin) != default;
+                   CheckMainDiagonals(_map, LengthToWin) != default || 
+                   CheckSecondaryDiagonals(_map, LengthToWin) != default;
         }
 
         /// <summary> Проверка горизонтальных серий </summary>
@@ -127,42 +129,55 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             return Mark.None;
         }
-
-        /// <summary> Проверка диагональных серий </summary>
-        private Mark CheckDiagonal(Mark[,] map, uint lengthToWin)
+        
+        /// <summary> Проверка диагональных серий, параллельных главной диагонали поля </summary>
+        private Mark CheckMainDiagonals(Mark[,] map, uint lengthToWin)
         {
-            Mark horizontalResult = CheckDiagonalWithHorizontalShift(map, lengthToWin);
-            if (horizontalResult != default)
-                return horizontalResult;
-
-            Mark invertedHorizontalResult = CheckInvertedDiagonalWithHorizontalShift(map, lengthToWin);
-            if (invertedHorizontalResult != default)
-                return invertedHorizontalResult;
-
-            Mark verticalResult = CheckDiagonalWithVerticalShift(map, lengthToWin);
-            if (verticalResult != default)
-                return verticalResult;
-
-            Mark verticalInvertedResult = CheckInvertedDiagonalWithVerticalShift(map, lengthToWin);
-            if (verticalInvertedResult != default)
-                return verticalInvertedResult;
-
+            int height = map.GetLength(0);
+            int width = map.GetLength(1);
+            
+            //итерация по сдвигу относительно главной диагонали
+            //первое значение - значение, при котором диагональ задевает только левый-нижний элемент
+            //последнее значение - значение, при котором диагональ задевает только верхний-правый элемент
+            for (int shift = -(height-1); shift < width; shift++)
+            {
+                int startRow = shift >= 0 ? 0 : -shift; //строка первого рассматриваемого элемента
+                int startColumn = shift >= 0 ? shift : 0; //столбец первого рассматриваемого элемента
+                
+                Counter<Mark> state = new Counter<Mark>(map[startRow, startColumn], 1);
+                
+                //проверка элементов, лежащих на рассматриваемой диагонали
+                for (int i = startRow + 1; (i + shift) < width && i < height; i++)
+                {
+                    Mark item = map[i, startColumn + (i - startRow)];
+                    if (CheckItem(state, item, lengthToWin))
+                        return item;
+                }
+            }
+            
             return Mark.None;
         }
 
-        /// <summary> Проверка диагональных серий с сдвигом по горизонтали от начала координат </summary>
-        private Mark CheckDiagonalWithHorizontalShift(Mark[,] map, uint lengthToWin)
+        /// <summary> Проверка диагональных серий, параллельных побочной диагонали поля </summary>
+        private Mark CheckSecondaryDiagonals(Mark[,] map, uint lengthToWin)
         {
             int height = map.GetLength(0);
             int width = map.GetLength(1);
 
-            for (int horizontalShift = 0; horizontalShift < width; horizontalShift++) //сдвиг от верхнего левого края по горизонтали
+            //итерация по сдвигу относительно от левого-верхнего угла (второстепенная диагональ будет иметь сдвиг shift = width-1)
+            //первое значение - значение, при котором диагональ задевает только нижний-правый элемент
+            //последнее значение - значение, при котором диагональ задевает только верхний-левый элемент
+            for (int shift = (width + height) - 1; shift >= 0; shift--)
             {
-                Counter<Mark> state = new Counter<Mark>(map[0, horizontalShift], 1);
+                int startRow = shift < width? 0 : shift - width; //строка первого рассматриваемого элемента
+                int startColumn = shift < width ? shift : width - 1; //столбец первого рассматриваемого элемента
+                
+                Counter<Mark> state = new Counter<Mark>(map[startRow, startColumn], 1);
 
-                for (int i = 1; (i + horizontalShift) < width && i < height; i++) //проход по диагонали до упора в края поля
+                //проход по элементам, лежащим на диагонали
+                for (int i = 1; (startColumn - i) >= 0 && (i + startRow) < height; i++)
                 {
-                    Mark item = map[i, i + horizontalShift];
+                    Mark item = map[startRow + i, startColumn - i];
                     if (CheckItem(state, item, lengthToWin))
                         return item;
                 }
@@ -170,69 +185,9 @@ namespace SoftwareEngineering.View.Controls.GameMap
 
             return Mark.None;
         }
-
-        /// <summary> Проверка диагональных серий с сдвигом по вертикали от начала координат </summary>
-        private Mark CheckDiagonalWithVerticalShift(Mark[,] map, uint lengthToWin)
-        {
-            int height = map.GetLength(0);
-            int width = map.GetLength(1);
-
-            for (int verticalShift = 0; verticalShift < height; verticalShift++) //сдвиг от верхнего левого края по вертикали
-            {
-                Counter<Mark> state = new Counter<Mark>(map[verticalShift, 0], 1);
-
-                for (int i = 1; i < width && (i + verticalShift) < height; i++) //проход по диагонали до упора в края поля
-                {
-                    Mark item = map[verticalShift + i, i];
-                    if (CheckItem(state, item, lengthToWin))
-                        return item;
-                }
-            }
-
-            return Mark.None;
-        }
-
-        private Mark CheckInvertedDiagonalWithHorizontalShift(Mark[,] map, uint lengthToWin)
-        {
-            int height = map.GetLength(0);
-            int width = map.GetLength(1);
-
-            for (int horizontalShift = width - 1; horizontalShift >= 0; horizontalShift--)
-            {
-                Counter<Mark> state = new Counter<Mark>(map[height - 1, horizontalShift], 1);
-
-                for (int i = 1; (i + horizontalShift) < width && i < height; i++)
-                {
-                    Mark item = map[height - (i + 1), i + horizontalShift];
-                    if (CheckItem(state, item, lengthToWin))
-                        return item;
-                }
-            }
-
-            return Mark.None;
-        }
-
-        private Mark CheckInvertedDiagonalWithVerticalShift(Mark[,] map, uint lengthToWin)
-        {
-            int height = map.GetLength(0);
-            int width = map.GetLength(1);
-
-            for (int verticalShift = height - 1; verticalShift >= 0; verticalShift--)
-            {
-                Counter<Mark> state = new Counter<Mark>(map[verticalShift, 0], 1);
-
-                for (int i = 1; i < width && (i + verticalShift) < height; i++)
-                {
-                    Mark item = map[verticalShift + i, i];
-                    if (CheckItem(state, item, lengthToWin))
-                        return item;
-                }
-            }
-
-            return Mark.None;
-        }
-
+        
         /// <summary> Проверяет текущий элемент и вызывает событие выигрыша, если цепочка достаточно длинна </summary>
+        /// <returns> Было ли вызвано событие</returns>
         private bool CheckItem(Counter<Mark> state, Mark item, uint lengthToWin)
         {
             if (!state.Check(item)) 
