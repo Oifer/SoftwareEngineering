@@ -26,15 +26,16 @@ namespace SoftwareEngineering.View.Controls.SettingsBoard
         public ResponseWithErrorMessage<GameSettings> GetSettings()
         {
             Mark mark = _getFirstMarkFunc();
-            
 
-            if (!uint.TryParse(_getWidthFunc(), out uint mapWidth) || mapWidth == 0)
+            uint mapWidth, mapHeight, lengthToWin;
+
+            if (!uint.TryParse(_getWidthFunc(), out mapWidth) || mapWidth == 0)
                 return new ResponseWithErrorMessage<GameSettings>("Некорректная ширина поля");
 
-            if (!uint.TryParse(_getHeightFunc(), out uint mapHeight) || mapHeight == 0)
+            if (!uint.TryParse(_getHeightFunc(), out mapHeight) || mapHeight == 0)
                 return new ResponseWithErrorMessage<GameSettings>("Некорректная высота поля");
 
-            if (!uint.TryParse(_getLengthToWinFunc(), out uint lengthToWin) || lengthToWin == 0)
+            if (!uint.TryParse(_getLengthToWinFunc(), out lengthToWin) || lengthToWin == 0)
                 return new ResponseWithErrorMessage<GameSettings>("Некорректная длина серии для выигрыша");
 
             if (mark == Mark.None)

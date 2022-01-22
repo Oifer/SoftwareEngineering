@@ -13,8 +13,8 @@ namespace SoftwareEngineering.Test.TestObjects.View.Controls
         
         public Mark[,] Map
         {
-            get => base._map;
-            set => base._map = value;
+            get { return base._map; }
+            set { base._map = value; }
         }
     }
 }

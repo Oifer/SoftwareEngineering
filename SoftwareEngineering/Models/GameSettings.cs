@@ -13,12 +13,12 @@ namespace SoftwareEngineering.Models
             FirstMark = firstMark;
         }
 
-        public uint MapWidth { get; }
+        public uint MapWidth { get; private set; }
 
-        public uint MapHeight { get; }
+        public uint MapHeight { get; private set; }
 
-        public uint LengthToWin { get; }
+        public uint LengthToWin { get; private set; }
 
-        public Mark FirstMark { get; }
+        public Mark FirstMark { get; private set; }
     }
 }

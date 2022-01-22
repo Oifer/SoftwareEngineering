@@ -7,7 +7,10 @@ namespace SoftwareEngineering.Test.Tests.Models
     [TestFixture]
     public class CounterTests
     {
-        private Counter<T> Init<T>(T item, uint count) => new Counter<T>(item, count);
+        private Counter<T> Init<T>(T item, uint count)
+        {
+            return new Counter<T>(item, count);
+        }
 
         [Test(Description = "Тестирование корректности срабатывания встроенной проверки")]
         public void CheckTest()

@@ -6,7 +6,7 @@ namespace SoftwareEngineering.Models.Enums
     public enum Mark
     {
         /// <summary> Пустое поле </summary>
-        None = default,
+        None = default(int),
         
         /// <summary> Ноль </summary>
         Naught,

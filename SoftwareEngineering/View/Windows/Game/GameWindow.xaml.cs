@@ -28,11 +28,20 @@ namespace SoftwareEngineering.View.Windows.Game
             GameMap.IsEnabled = false;
         }
 
-        private void ShowMessage(string message) => MessageBox.Show(message);
+        private void ShowMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
 
-        private void OnStartGameClicked(object sender, EventArgs e) => ViewModel.StartGame();
+        private void OnStartGameClicked(object sender, EventArgs e)
+        {
+            ViewModel.StartGame();
+        }
 
-        private void OnClearMapClicked(object sender, EventArgs e) => ViewModel.Clear();
+        private void OnClearMapClicked(object sender, EventArgs e)
+        {
+            ViewModel.Clear();
+        }
 
         private void StartGame(GameSettings settings)
         {

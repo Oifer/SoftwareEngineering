@@ -21,14 +21,16 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         [Test(Description = "Тестирование создания объекта")]
         public void InitializationTest()
         {
-            Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            Init(out testObject);
             Assert.Pass();
         }
 
         [Test(Description = "Тестирование изменения ширины поля")]
         public void WidthChangeTest()
         {
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             uint oldWidth = map.MapWidth;
             uint newWidth = oldWidth + 2;
 
@@ -41,7 +43,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         [Test(Description = "Тестирование изменения высоты поля")]
         public void HeightChangeTest()
         {
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             uint oldHeight = map.MapHeight;
             uint newHeight = oldHeight + 2;
 
@@ -54,7 +57,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         [Test(Description = "Тестирование изменения длины цепочки для выигрыша")]
         public void LengthToWinChangeTest()
         {
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             uint oldLength = map.LengthToWin;
             uint newLength = oldLength + 2;
 
@@ -66,7 +70,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         [Test(Description = "Тестирование случая, когда изменение длины цепочки для выигрыша приводит к мгновенному завершению игры")]
         public void LengthToWinInstantWinTest()
         {
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             map.LengthToWin = 4;
             testObject.Map = new Mark[,] { { Mark.Cross, Mark.Cross, Mark.Cross } }; //для выигрыша недостаточно еще 1 отметки
 
@@ -85,7 +90,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         [Test(Description = "Тестирование изменения отметки следующего хода")]
         public void NextMarkChangeTest()
         {
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             Mark current = map.NextMark;
             Mark next = current == Mark.Cross ? Mark.Naught : Mark.Cross;
 
@@ -100,7 +106,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
             const int size = 3;
             const int point = size - 1;
 
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             map.MapWidth = map.MapHeight = size;
             testObject.Map[point, point] = Mark.Cross;
 
@@ -118,7 +125,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
             const int point = size - 1;
             const Mark mark = Mark.Cross;
 
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             map.LengthToWin = size;
             testObject.Map = new Mark[size, size];
             map.NextMark = mark;
@@ -204,7 +212,8 @@ namespace SoftwareEngineering.Test.Tests.View.Controls
         {
             const int lengthToWin = 3;
 
-            GameMapViewModel map = Init(out GameMapTestObject testObject);
+            GameMapTestObject testObject;
+            GameMapViewModel map = Init(out testObject);
             map.LengthToWin = lengthToWin;
             testObject.Map = gameMap;
             map.NextMark = expectedWinner;

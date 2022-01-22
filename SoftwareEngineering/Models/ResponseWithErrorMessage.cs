@@ -8,20 +8,26 @@ namespace SoftwareEngineering.Models
 {
     public class ResponseWithErrorMessage<T>
     {
-        public ResponseWithErrorMessage(T response)
+        public ResponseWithErrorMessage(T response = default(T))
         {
             Response = response;
         }
 
-        public ResponseWithErrorMessage(string errorMessage)
+        public ResponseWithErrorMessage(string errorMessage = "")
         {
             ErrorMessage = errorMessage;
         }
 
-        public bool IsCorrect => string.IsNullOrWhiteSpace(ErrorMessage);
+        public bool IsCorrect
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(ErrorMessage);
+            }
+        }
 
-        public T Response { get; } = default;
+        public T Response { get; private set; }
 
-        public string ErrorMessage { get; } = string.Empty;
+        public string ErrorMessage { get; private set; }
     }
 }

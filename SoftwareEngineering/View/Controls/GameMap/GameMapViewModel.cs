@@ -19,25 +19,28 @@ namespace SoftwareEngineering.View.Controls.GameMap
         /// <inheritdoc />
         public uint MapWidth
         {
-            get => Convert.ToUInt32(_map.GetLength(1)); 
-            set => Resize(value, MapHeight);
+            get { return Convert.ToUInt32(_map.GetLength(1)); }
+            set { Resize(value, MapHeight); }
         }
 
         /// <inheritdoc />
         public uint MapHeight
         {
-            get => Convert.ToUInt32(_map.GetLength(0)); 
-            set => Resize(MapWidth, value);
+            get { return Convert.ToUInt32(_map.GetLength(0)); }
+            set { Resize(MapWidth, value); }
         }
 
-        private void Resize(uint width, uint height) => _onRedraw(_map = new Mark[height, width]);
+        private void Resize(uint width, uint height)
+        {
+            _onRedraw(_map = new Mark[height, width]);
+        }
 
         private uint _lengthToWin;
 
         /// <inheritdoc />
         public uint LengthToWin
         {
-            get => _lengthToWin;
+            get { return _lengthToWin; }
             set
             {
                 _lengthToWin = value;
@@ -58,12 +61,16 @@ namespace SoftwareEngineering.View.Controls.GameMap
         public event Action<Mark> NextMarkChanged;
 
         /// <inheritdoc />
-        public void Clear() => Resize(MapWidth, MapHeight);
+        public void Clear()
+        {
+            Resize(MapWidth, MapHeight);
+        }
 
         public Mark MapClicked(int row, int column)
         {
             Mark currentMark = _map[row, column] = NextMark;
-            NextMarkChanged?.Invoke(NextMark = GetNextMark(NextMark));
+            if (NextMarkChanged != null)
+                NextMarkChanged(NextMark = GetNextMark(NextMark));
 
             if (!CheckWin())
                 CheckFull();
@@ -82,10 +89,10 @@ namespace SoftwareEngineering.View.Controls.GameMap
         /// <summary> Проверка поля на наличие серий отметок достаточно длинных для выигрыша </summary>
         private bool CheckWin()
         {
-            return CheckHorizontal(_map, LengthToWin) != default ||
-                   CheckVertical(_map, LengthToWin) != default ||
-                   CheckMainDiagonals(_map, LengthToWin) != default || 
-                   CheckSecondaryDiagonals(_map, LengthToWin) != default;
+            return CheckHorizontal(_map, LengthToWin) != default(Mark) ||
+                   CheckVertical(_map, LengthToWin) != default(Mark) ||
+                   CheckMainDiagonals(_map, LengthToWin) != default(Mark) || 
+                   CheckSecondaryDiagonals(_map, LengthToWin) != default(Mark);
         }
 
         /// <summary> Проверка горизонтальных серий </summary>
@@ -196,7 +203,8 @@ namespace SoftwareEngineering.View.Controls.GameMap
             if (state.CurrentItem == Mark.None || state.Count < lengthToWin)
                 return false;
 
-            WinEvent?.Invoke(item);
+            if (WinEvent != null)
+                WinEvent(item);
             return true;
         }
 
@@ -216,7 +224,8 @@ namespace SoftwareEngineering.View.Controls.GameMap
             }
 
             //если все поля заполнены
-            NoEmptyCellsEvent?.Invoke();
+            if (NoEmptyCellsEvent != null)
+                NoEmptyCellsEvent();
         }
 
 

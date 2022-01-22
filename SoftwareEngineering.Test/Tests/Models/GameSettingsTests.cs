@@ -11,7 +11,10 @@ namespace SoftwareEngineering.Test.Tests.Models
             uint mapWidth = 10, 
             uint mapHeight = 10, 
             uint lengthToWin = 5, 
-            Mark firstMark = Mark.Cross) => new GameSettings(mapWidth, mapHeight, lengthToWin, firstMark);
+            Mark firstMark = Mark.Cross)
+        {
+            return new GameSettings(mapWidth, mapHeight, lengthToWin, firstMark);
+        }
 
         [Test(Description = "Проверка свойства ширины поля")]
         public void MapWidthTest()
